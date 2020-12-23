@@ -1,0 +1,18 @@
+{
+  "extends": ["airbnb-typescript/base"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "semi": "off",
+    "@typescript-eslint/semi": ["off"],
+    "max-len": "warn",
+    "import/prefer-default-export": "off",
+    "import/no-cycle": "warn",
+    "@typescript-eslint/no-use-before-define": "warn",
+    "@typescript-eslint/no-unused-expressions": "warn",
+    "import/no-named-as-default": "warn",
+    "import/no-extraneous-dependencies": "warn",
+    "class-methods-use-this": "warn"
+  }
+}

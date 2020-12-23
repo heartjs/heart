@@ -1,0 +1,5 @@
+**/node_modules/*
+**/build/*
+**/dist/*
+
+services/admin-website/src/views/Products/fake.ts
