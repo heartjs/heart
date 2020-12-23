@@ -23,7 +23,7 @@
     "bootstrap": "yarn && yarn build",
     "build": "lerna run build",
     "deploy:packages": "lerna run deploy --since master",
-    "deploy": "npm run deploy:core-packages",
+    "deploy": "npm run deploy:packages",
     "lint": "lerna run lint --stream --parallel",
     "clean": "lerna clean -y",
     "test": "lerna run test --stream --parallel",
