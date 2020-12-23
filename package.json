@@ -1,5 +1,5 @@
 {
-  "name": "heart",
+  "name": "heartjs",
   "version": "0.0.0",
   "description": "Lightweight isolated business logic processor for monolith projects built with event sourcing pattern in mind",
   "main": "dist/index.js",
@@ -22,7 +22,7 @@
   "scripts": {
     "bootstrap": "yarn && yarn build",
     "build": "lerna run build",
-    "deploy:packages": "lerna run deploy --since master",
+    "deploy:packages": "lerna run deploy",
     "deploy": "npm run deploy:packages",
     "lint": "lerna run lint --stream --parallel",
     "clean": "lerna clean -y",
