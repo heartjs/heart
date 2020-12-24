@@ -16,6 +16,14 @@ Typescript is widely distributed on backend and frontend. Over the past few year
 
 By creating the current library, we tried to answer this question.
 
+## Installation
+
+`npm i @theuntime/heart`
+
+or
+
+`yarn add @theuntime/heart`
+
 ## Included components
 
 1. `Event` and `Command` are the first tier citizens of this library. All logic build with the help of these guys.
