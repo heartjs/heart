@@ -1,5 +1,5 @@
-import { DomainError } from './DomainError'
-import invariant from './invariant'
+import { DomainError } from '../errors'
+import { invariant } from './invariant'
 
 describe('invariant', () => {
   test('success', () => {
