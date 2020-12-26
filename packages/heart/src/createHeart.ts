@@ -71,13 +71,18 @@ export function createHeart<Bag>({ contexts, eventStore, bag }: TInput<Bag>): ID
         const promises = events
           .map((event) => {
             const eventHandler = eventHandlers[event.type]
+            const wildCardEventHandler = eventHandlers['*']
+
+            if (wildCardEventHandler) {
+              wildCardEventHandler(event, bag)
+            }
 
             if (!eventHandler) {
               console.warn(`You have not registered eventHandler for event with type "${event.type}"`)
               return undefined
             }
 
-            return eventHandler(event, {})
+            return eventHandler(event, bag)
           })
           .filter((promise) => promise != null)
         await Promise.all(promises)
