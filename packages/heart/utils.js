@@ -1,1 +1,1 @@
-module.exports = require('./dist/utils/index.js')
+module.exports = require('./dist/utils')

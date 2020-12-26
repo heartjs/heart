@@ -3,3 +3,5 @@ export { createContext } from './createContext'
 export { createAggregate } from './createAggregate'
 export { createEvent } from './createEvent'
 export { createInitialEvent } from './createInitialEvent'
+
+export { TCommand } from './types'

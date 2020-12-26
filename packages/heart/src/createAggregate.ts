@@ -157,6 +157,6 @@ export function createAggregate<State extends { id: string }>(
   }
 }
 
-export type ExtractStateFromAggregate<Payload extends IUninitiatedAggregate<unknown>> = (
+export type ExtractAggregateStateType<Payload extends IUninitiatedAggregate<unknown>> = (
   ReturnType<ReturnType<Payload['create']>['getState']>
 )
