@@ -18,7 +18,7 @@ describe('createContext', () => {
           console.log(event)
         },
 
-        [combineTypes(testEvent02, testEvent03)]: async (event) => {
+        [combineTypes([testEvent02, testEvent03])]: async (event) => {
           console.log(event)
         },
       },
