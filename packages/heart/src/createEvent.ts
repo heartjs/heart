@@ -10,7 +10,7 @@ export type TOptions = {
 const defaultOptions: Required<TOptions> = {
   version: 1,
 }
-export function createEvent<Payload>(type: string, options: TOptions = {}) {
+export function createEvent<Payload>(topic: string, options: TOptions = {}) {
   const newOptions: Required<TOptions> = {
     ...defaultOptions,
     ...options,
@@ -26,7 +26,7 @@ export function createEvent<Payload>(type: string, options: TOptions = {}) {
       return {
         aggregateId,
         aggregateName,
-        type,
+        type: topic,
         payload,
         meta: {
           id: eventID,
@@ -38,10 +38,10 @@ export function createEvent<Payload>(type: string, options: TOptions = {}) {
     }
   }
 
-  event.toString = () => type
-  event.type = type
+  event.toString = () => topic
+  event.type = topic
 
   return event
 }
 
-export type ExtractType<Payload extends () => (...args: any) => any> = ReturnType<ReturnType<Payload>>
+export type ExtractEventType<Payload extends () => (...args: any) => any> = ReturnType<ReturnType<Payload>>
