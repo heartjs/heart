@@ -58,12 +58,34 @@ export function createContext<Bag>({
 
     const preparedEventHandlers = Object.keys(eventHandlers || {})
       .reduce(
-        (acc, eventHandlerName) => ({
-          ...acc,
-          [eventHandlerName]: (event: TEvent<unknown>) => (
-            eventHandlers![event.type](event, bag)
-          ),
-        }),
+        (acc, eventHandlerName) => {
+          const types = eventHandlerName.split(':::')
+          const hasCombinedTypes = types.length > 0
+
+          if (hasCombinedTypes) {
+            const eventHandlersForTypes = types.reduce(
+              (eventHandlersForTypesAcc, type) => ({
+                ...eventHandlersForTypesAcc,
+                [type]: (event: TEvent<unknown>) => (
+                  eventHandlers![event.type](event, bag)
+                ),
+              }),
+              {},
+            )
+
+            return {
+              ...acc,
+              ...eventHandlersForTypes,
+            }
+          }
+
+          return {
+            ...acc,
+            [eventHandlerName]: (event: TEvent<unknown>) => (
+              eventHandlers![event.type](event, bag)
+            ),
+          }
+        },
         {},
       )
 
