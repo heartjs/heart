@@ -8,7 +8,7 @@ If you want contribute – welcome. But **DO NOT USE** this in production.
 
 Lightweight isolated business logic processor for monolith projects.
 
-Built with `event sourcing` pattern in mind this library will help you build reliable logic with the help of `Domain Driven Design`.
+Built with `event sourcing` pattern in mind. This library will help you build reliable logic with the help of `Domain Driven Design`.
 
 ## Motivation
 
@@ -16,12 +16,12 @@ Typescript is widely distributed on backend and frontend. Over the past few year
 
 That's means you have to create lots of boilerplate code to introduce even the smallest feature.
 
-By creating the `heartjs`, I trying to solve those issues.
+By creating the `heartjs`, I'm trying to solve those issues.
 
 ### Pros
 
 - Can be used with `redux`, `express`, `nestjs` or any other infrastracture library you like.
-- `heartjs` provides clear concepts for whole team. So your codebase will be understandable for develop and maintain.
+- `heartjs` provides clear concepts for whole team. So your codebase will be understandable for developing and maintain.
 - Codebase can scale rapidly without any issues for development speed.
 
 ### Cons
@@ -43,7 +43,7 @@ or
 
 ## Concepts
 
-For more information you can researc topic `Domain Driven Design (DDD)` invented by Eric Evans. I sugges you to read [Big Blue Book](https://www.amazon.com/gp/product/B00794TAUG/ref=dbs_a_def_rwt_bibl_vppi_i0)
+For more information you can research topic `Domain Driven Design (DDD)` invented by Eric Evans. I suggest you to read [Blue Book](https://www.amazon.com/gp/product/B00794TAUG/ref=dbs_a_def_rwt_bibl_vppi_i0)
 
 ### Domain
 
@@ -53,7 +53,7 @@ The main concept you are working on right now. For example `ecommerce`, `deliver
 
 Facts which happens in your domain. For example `order created`, `delivery started` etc.
 
-Should always be called in the past tense.
+Should always be called in the **past tense**.
 
 ### Aggregates
 
@@ -65,7 +65,7 @@ The API "endpoints". For example `create order`, `add contact info to order`, `a
 
 ### Event Handlers
 
-Side effects of your domain. For example `send notification about created order`, `send email for abandoned cart` etc
+Side effects of your domain. For example `send notification about created order`, `send email for abandoned cart` etc.
 
 ---
 
@@ -77,9 +77,15 @@ You can use `event storming` technique to make it clear what happens in your dom
 
 ### 2. Think where boundaries of your `context`
 
+TODO: describe
+
 ### 3. Create `aggregates` required in `context`
 
+TODO: describe
+
 ### 4. Wire everything together
+
+TODO: describe
 
 ---
 
