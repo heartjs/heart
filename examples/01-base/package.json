@@ -1,6 +1,6 @@
 {
   "name": "@heartjs/examples-01-base",
-  "version": "1.0.0-alpha.2.0",
+  "version": "1.0.0-alpha.2.1",
   "description": "Basic example of heartjs",
   "main": "dist/index.js",
   "author": "Tony Pinkevych",
@@ -10,7 +10,7 @@
     "build": "rm -rf ./dist && tsc"
   },
   "dependencies": {
-    "@heartjs/heart": "^1.0.0-alpha.2.0"
+    "@heartjs/heart": "^1.0.0-alpha.2.1"
   },
   "devDependencies": {
     "typescript": "^4.1.3"
