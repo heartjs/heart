@@ -6,6 +6,14 @@
   "author": "Tony Pinkevych <tony@untimestudio.com>",
   "license": "MIT",
   "private": false,
+  "description": "Lightweight isolated business logic processor for monolith projects built with event sourcing pattern in mind",
+  "keywords": [
+    "business logic",
+    "ddd",
+    "event sourcing",
+    "cqrs",
+    "nodejs"
+  ],
   "devDependencies": {
     "@types/jest": "^26.0.19",
     "@types/ramda": "^0.27.34",
