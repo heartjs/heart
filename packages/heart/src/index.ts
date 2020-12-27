@@ -4,4 +4,8 @@ export { createAggregate } from './createAggregate'
 export { createEvent } from './createEvent'
 export { createInitialEvent } from './createInitialEvent'
 
-export { TCommand } from './types'
+export {
+  TAggregate,
+  TCommand,
+  TEvent,
+} from './types'
