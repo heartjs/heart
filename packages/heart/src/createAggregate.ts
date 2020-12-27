@@ -44,9 +44,13 @@ function aggregateFactory<State extends { id: string }>(
 
   const handleEvent = (event: TEvent<unknown>): void => {
     try {
-      state = reducers[event.type](state, event)
+      const reducer = reducers[event.type]
+      if (!reducer) {
+        throw new InfrastractureError(`Aggregate with name "${input.name}" have no reducer for event type "${event.type}"`)
+      }
+      state = reducer(state, event)
     } catch (err) {
-      throw new InfrastractureError(`Aggregate with name "${input.name}" have no reducer for event type "${event.type}"`)
+      throw new InfrastractureError(`Something bad happen at reducer in aggregate with name "${input.name}" for event type "${event.type}"`)
     }
   }
 
@@ -147,7 +151,17 @@ export function createAggregate<State extends { id: string }>(
     },
 
     loadFromHistory: (events: TEvent<any>[]): TAggregate<State> => {
-      const state = events.reduce(handleEvent, input.initialState)
+      // TODO: move to separated file
+      const preparedEvents = R.sort(
+        (left, right) => {
+          const leftTimestamp = new Date(left.meta.timestamp).getTime()
+          const rightTimestamp = new Date(right.meta.timestamp).getTime()
+          return leftTimestamp - rightTimestamp
+        },
+        events,
+      )
+
+      const state = preparedEvents.reduce(handleEvent, input.initialState)
       return aggregateFactory({
         ...input,
         initialState: state,
