@@ -9,13 +9,32 @@ import {
   TEvent,
 } from './types'
 
+type TOptions = {
+  verbose?: boolean
+}
+
+const defaultOptions: Required<TOptions> = {
+  verbose: false,
+}
+
 type TInput<Bag> = {
   contexts: { [contextName: string]: TContextFactory<any> }
   eventStore: IEventStore
   bag: Bag
+  options?: TOptions
 }
 
-export function createHeart<Bag>({ contexts, eventStore, bag }: TInput<Bag>): IDomain {
+export function createHeart<Bag>({
+  contexts,
+  eventStore,
+  bag,
+  options = {},
+}: TInput<Bag>): IDomain {
+  const combinedOptions: Required<TOptions> = {
+    ...defaultOptions,
+    ...options,
+  }
+
   const createdContexts: { [contextName: string]: IContext } = Object.keys(contexts).reduce(
     (acc, contextName) => {
       const createdContext = contexts[contextName](bag)
@@ -59,6 +78,10 @@ export function createHeart<Bag>({ contexts, eventStore, bag }: TInput<Bag>): ID
   return {
     commands,
     dispatch: async (command) => {
+      if (combinedOptions.verbose) {
+        console.log(`heartjs: receive command: ${JSON.stringify(command)}`)
+      }
+
       const aggregates = await commandHandlers[command.topic](command, {})
       const events = aggregates.reduce(
         (acc: TEvent<any>[], aggregate) => ([...acc, ...aggregate.getChanges()]),
@@ -70,22 +93,39 @@ export function createHeart<Bag>({ contexts, eventStore, bag }: TInput<Bag>): ID
       try {
         const promises = events
           .map((event) => {
+            const internalPromises: Promise<void>[] = []
+
+            if (combinedOptions.verbose) {
+              console.log(`heartjs: processing event with type: "${event.type}"`)
+            }
+
             const eventHandler = eventHandlers[event.type]
             const wildCardEventHandler = eventHandlers['*']
 
+            if (combinedOptions.verbose) {
+              console.log(`heartjs: event handler found, ${eventHandler}`)
+            }
+
             if (wildCardEventHandler) {
-              wildCardEventHandler(event, bag)
+              if (combinedOptions.verbose) {
+                console.log(`heartjs: wildcard event handler found, ${wildCardEventHandler}`)
+              }
+              internalPromises.push(wildCardEventHandler(event, bag))
             }
 
             if (!eventHandler) {
-              console.warn(`You have not registered eventHandler for event with type "${event.type}"`)
+              console.warn(`heartjs: You have not registered eventHandler for event with type "${event.type}"`)
               return undefined
             }
 
-            return eventHandler(event, bag)
+            internalPromises.push(eventHandler(event, bag))
+
+            return internalPromises
           })
           .filter((promise) => promise != null)
-        await Promise.all(promises)
+          .reduce((acc, internalPromises) => ([...acc!, ...internalPromises!]), [])
+
+        await Promise.all(promises!)
       } catch (err) {
         console.error('Something bad happen at eventHandlers', err)
       }
