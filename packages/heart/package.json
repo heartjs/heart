@@ -1,6 +1,6 @@
 {
   "name": "@heartjs/heart",
-  "version": "1.0.0-1.0.0-alpha.2.0",
+  "version": "1.0.0-alpha.2.0",
   "main": "dist/index.js",
   "repository": "https://github.com/tonypinkevych/heart.git",
   "author": "Tony Pinkevych <tony@untimestudio.com>",
