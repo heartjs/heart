@@ -61,14 +61,13 @@ export function createContext<Bag>({
         (acc, eventHandlerName) => {
           const types = eventHandlerName.split(':::')
           const hasCombinedTypes = types.length > 0
+          const eventHandler = eventHandlers![eventHandlerName]
 
           if (hasCombinedTypes) {
             const eventHandlersForTypes = types.reduce(
               (eventHandlersForTypesAcc, type) => ({
                 ...eventHandlersForTypesAcc,
-                [type]: (event: TEvent<unknown>) => (
-                  eventHandlers![event.type](event, bag)
-                ),
+                [type]: (event: TEvent<unknown>) => eventHandler(event, bag),
               }),
               {},
             )
@@ -81,9 +80,7 @@ export function createContext<Bag>({
 
           return {
             ...acc,
-            [eventHandlerName]: (event: TEvent<unknown>) => (
-              eventHandlers![event.type](event, bag)
-            ),
+            [eventHandlerName]: (event: TEvent<unknown>) => eventHandler(event, bag),
           }
         },
         {},
