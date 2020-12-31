@@ -4,17 +4,17 @@ If you want contribute – welcome. But **DO NOT USE** this in production.
 
 ---
 
-# Heart
+# Getting Started
 
-Lightweight isolated business logic processor for monolith projects.
+**Lightweight isolated business logic processor for monolith projects.**
 
-Built with `event sourcing` pattern in mind. This library will help you build reliable logic with the help of `Domain Driven Design`.
+- Built with `event sourcing` pattern in mind.
+- This library will help you build reliable logic with the help of `Domain Driven Design`.
 
 ## Motivation
 
-Typescript is widely distributed on backend and frontend. Over the past few years, we have received awesome libraries like `redux`, `express`, `nestjs` etc. But all of them do not answer the question "how to create isolated reusable business logic?". And in my opinion they all focus on `infrastracture` over `domain` layer.
-
-That's means you have to create lots of boilerplate code to introduce even the smallest feature.
+Typescript is widely distributed on backend and frontend. Over the past few years, we have received awesome libraries like `redux`, `express`, `nestjs` etc. But all of them do not answer the question *"how to create isolated reusable business logic?"*.
+<br />And in my opinion they all focus on `infrastracture` over `domain` layer. That's means you have to create lots of boilerplate code to introduce even the smallest feature.
 
 By creating the `heartjs`, I'm trying to solve those issues.
 
@@ -31,33 +31,7 @@ By creating the `heartjs`, I'm trying to solve those issues.
 
 ---
 
-## Installation
-
-`npm i @heartjs/heart`
-
-or
-
-`yarn add @heartjs/heart`
-
----
-
 ## Concepts
-
-<!--
-Plan:
-
-1. Hello world // how to read this guide
-2. Event sourcing and events as first-class citizens
-3. Aggregates and encapsulated business logic
-4. Contexts as API
-  1. The best ways to create bounded contexts
-5. Creating the Heart
-6. Providing dependencies
-7. Handle side effects
-8. Build read model
-9. How transactions being handled
-10. Data flow
--->
 
 For more information you can research topic `Domain Driven Design (DDD)` invented by Eric Evans. I suggest you to read [Blue Book](https://www.amazon.com/gp/product/B00794TAUG/ref=dbs_a_def_rwt_bibl_vppi_i0)
 
@@ -147,119 +121,8 @@ TODO: describe
 
 ### `createEvent`
 
-```ts
-createEvent(topic: string, options?: Options)
-```
-
-**Topic**
-
-Unique identifier of the event.
-
-**Options**
-
-```ts
-interface Options {
-  // current version of the event
-  version?: number // default: 1
-}
-```
-
 ### `createAggregate`
-
-```ts
-createAggregate<State extends { id: string }>(input: Input) // means State = any & { id: string }
-```
-
-**Input**
-
-```ts
-interface Input<State> {
-  // unique name of the aggregate. Will be added to every event
-  name: string
-
-  // current state of the aggregate
-  initialState: State
-
-  /**
-   * @description provided methods which will be available like public API of the aggregate
-   * @example you have actions named:
-   * const test = createAggregate({
-   *  ...
-   *
-   *  actions: {
-   *    updateName: (state, newName) => ...
-   *  }
-   * })
-   *
-   * and then you can use it as `test.updateName('newNameHere')`
-   */
-  actions: Record<
-    string,
-    (state: State, ...args: any[]) => typeof createEvent,
-  >
-
-  // list of reducers. Used to update the state of current aggregate.
-  reducers: Record<
-    string,
-    (state: State, event: typeof createEvent) => Promise<void | never>,
-  >
-
-  // lifecycle hook which called right after aggregate creation
-  onCreate?: (payload: any) => typeof createEvent
-}
-```
 
 ### `createContext`
 
-```ts
-createContext(input: Input)
-```
-
-```ts
-interface Input {
-  // list of related aggregates
-  aggregates: Record<string, typeof createAggregate>
-
-  // public API of this context
-  commandHandlers: Record<
-    string,
-    (command: any, bag: any)> => Promise<typeof createAggregate | never>,
-  >
-
-  // side effects
-  eventHandlers: Record<
-    string,
-    (event: typeof createEvent, bag: any)> => Promise<void | never>,
-  >
-}
-```
-
 ### `createHeart`
-
-```ts
-createHeart(input: Input)
-```
-
-```ts
-interface Input {
-  // list of related contexts
-  contexts: Record<string, typeof createContext>
-
-  // event store to store and retrieve all of your events
-  eventStore: IEventStore
-
-  // any dependencies you want provide to `commandHandlers` and `eventHandlers`
-  bag: any
-  options: Options
-}
-
-interface IEventStore {
-  // save events to store
-  saveEvents: (events: TEvent<any>[]) => Promise<void | never>
-}
-
-interface Options {
-  // enable logging
-  verbose?: boolean // default: false
-}
-```
