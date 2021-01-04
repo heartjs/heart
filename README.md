@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="/docs/assets/logo.jpg" alt="Logo" width="600px">
+  <img src="https://github.com/heartjs/heart/blob/main/docs/assets/logo.jpg" alt="Logo" width="600px">
 </p>
 
 <p align="center">
