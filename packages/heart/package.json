@@ -1,6 +1,6 @@
 {
   "name": "@heartjs/heart",
-  "version": "1.0.0-alpha.2.2",
+  "version": "1.0.0-alpha.2.3",
   "main": "dist/index.js",
   "repository": "https://github.com/heartjs/heart.git",
   "bugs": "https://github.com/heartjs/heart/issues",
