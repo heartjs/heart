@@ -1,0 +1,30 @@
+name: Lint and Test
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2-beta
+      with:
+        node-version: '12'
+
+    - run: npm install -g yarn # install yarn
+
+    - name: yarn install
+      run: yarn
+
+    - name: yarn build
+      run: yarn build
+
+    - name: lint
+      run: yarn lint
+
+    - name: typecheck
+      run: yarn typecheck
+
+    - name: test
+      run: yarn test
