@@ -20,7 +20,7 @@ const defaultOptions: Required<TOptions> = {
 type TInput<Bag> = {
   contexts: { [contextName: string]: TContextFactory<any> }
   eventStore: IEventStore
-  bag: Bag
+  bag?: Bag
   options?: TOptions
 }
 

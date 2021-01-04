@@ -8,30 +8,23 @@
 </br>or</br>
 `yarn add @heartjs/heart`
 
-## There are 4 moving pieces
+### Overview ([Full example here](https://github.com/heartjs/heart/tree/main/examples/01-hello-world/src))
 
-- Events
-- Aggregates
-- Contexts
-- Heart
+All business logic will be built according to the following hierarchy:
 
-### Overview
-
-Вся бизнес-логика будет строиться по следующей иерархии:
-
-- **ивенты** – это граждане первого порядка в вашем домене. Другими словами – это факты, которые могут произойти в домене. К примеру `заказ создан`, `товар добавлен в корзину` и т.д.
-- **домен, или heart** – это основной вид деятельности вашего бизнеса
-- **контекст** – направление деятельности домена, к примеру `обработка заказов`, `доставка` и т.д. В домене может быть несколько контекстов. Самое важное, что всё, что находится внутри контекста должно быть инкапсулировано.
-- **агрегат** – основные сущности, которые есть в контексте, к примеру `заказ`, `корзина` и т.д. В контексте может быть несколько агрегатов.
+- **events** – are first-class citizens in your domain. In other words, these are facts that happen in the domain. For example, `order has been created`, `product has been added to cart`, etc.
+- **domain, or heart** – is the main activity of your business
+- **context** – the module of the domain, for example, `order processing`, `delivery`, etc. Domain can have multiple contexts. Everything inside the context must be encapsulated.
+- **aggregate** – the main entities exists in context, for example, `order`, `cart`, etc. Context can have multiple aggregates.
 
 ---
 
-Далее мы рассмотрим простой пример: <br/>
-Пользователь может `добавлять` и `удалять` товары в `корзине`
+Next, we'll look at a simple example: <br/>
+The user can `add` products to the `cart` and `delete` them
 
-Исходя из этого предложения, мы можем определить, что наш **домен** – это что-то связанное с торговлей. Для старта можем создать базовый `common` контекст, а позже переназвать его более правильно. <br/>
-**Ивенты**, которые нужны: `cartCreated`, `cartProductAdded` и `cartProductRemoved` <br/>
-Для начала создадим последние два:
+Based on this sentence, we can determine that our **domain** is something related to e-commerce. To start, we can create a basic `common` context, and later rename it more correctly. <br/>
+Required **events**: `cartCreated`, `cartProductAdded` and `cartProductRemoved` <br/>
+First, let's create the last two:
 
 ```typescript
 // cartEvents.ts
@@ -41,7 +34,7 @@ export const cartProductAdded = createEvent('cartProductAdded')
 export const cartProductRemoved = createEvent('cartProductRemoved')
 ```
 
-А ивент `cartCreated` будет первоначальным, который будет задавать уникальный `id` для **агрегата**.
+And the event `cartCreated` will be the initial one, which will set a unique `id` for the **aggregate**.
 
 ```diff
 // cartEvents.ts
@@ -53,7 +46,7 @@ export const cartProductAdded = createEvent('cartProductAdded')
 export const cartProductRemoved = createEvent('cartProductRemoved')
 ```
 
-Финальный файл с ивентами будет выглядеть так:
+The final file with events will look like this:
 
 ```typescript
 // cartEvents.ts
@@ -66,7 +59,7 @@ export const cartProductRemoved = createEvent('cartProductRemoved')
 
 ---
 
-И чтобы создавать эти **ивенты** нам нужен **агрегат** `cart`.
+And to create these **events** we need a **aggregate** `cart`.
 
 ```typescript
 // cart.ts
@@ -82,8 +75,8 @@ export const cart = createAggregate({
 })
 ```
 
-Который будет иметь следующие методы: `cart.create()`, `cart.addProduct()` и `cart.removeProduct()`. <br />
-Опять же, сначала создадим последние два:
+Which will have the following methods: `cart.create()`, `cart.addProduct()` and `cart.removeProduct()`. <br />
+Again, let's create the last two first:
 
 ```diff
 // cart.ts
@@ -98,18 +91,19 @@ export const cart = createAggregate({
   },
 
 +  actions: {
-+    addProduct({ product }) {
++    addProduct(state, { product }) {
 +       return [cartProductAdded({ product })]
 +    },
 +
-+    removeProduct({ product }) {
++    removeProduct(state, { product }) {
 +       return [cartProductRemoved({ product })]
 +    }
 +  }
 })
 ```
 
-`cart.create()` – стандартный метод, который доступен в агрегате по-умолчанию. Чтобы обрабатывать этот метод нам нужно добавить хук, который будет вызываться при создании агрегата. Он должен возвращать результат вызова функции `createInitialEvent()`
+`cart.create()` is a standard method that is available in the aggregate by default. To handle this method, we need to add a hook that will be called when the aggregate is created. <br />
+It should return the result of calling the `createInitialEvent()` function.
 
 ```diff
 // cart.ts
@@ -128,18 +122,18 @@ export const cart = createAggregate({
 +  },
 
   actions: {
-    addProduct({ product }) {
+    addProduct(state, { product }) {
       return [cartProductAdded({ product })]
     },
 
-    removeProduct({ product }) {
+    removeProduct(state, { product }) {
       return [cartProductRemoved({ product })]
     }
   }
 })
 ```
 
-Агрегат с подготовленными методами будет выглядеть следующим образом:
+An aggregate with prepared methods will look like this:
 
 ```typescript
 // cart.ts
@@ -158,19 +152,19 @@ export const cart = createAggregate({
   },
 
   actions: {
-    addProduct(product) {
+    addProduct(state, { product }) {
       return [cartProductAdded({ product )]
     },
 
-    removeProduct(product) {
+    removeProduct(state, { product }) {
       return [cartProductRemoved({ product })]
     }
   }
 })
 ```
 
-Но это еще не всё, чтобы агрегат правильно работал, нам нужно как-то обновлять его состояние. Для этого используется концепция `reducers`. <br />
-Записываются они следующим образом:
+But we are not finished yet. To make aggregate work correctly, we have to somehow update its state. The concept of `reducers` is used for this. <br />
+They are written as follows:
 
 ```diff
 // cart.ts
@@ -191,7 +185,7 @@ export const cart = createAggregate({
 })
 ```
 
-Для каждого ивента должен быть добавлен свой `reducer`.
+For every event corresponding `reducer` must be added.
 
 ```diff
 // cart.ts
@@ -222,7 +216,7 @@ export const cart = createAggregate({
 })
 ```
 
-Итого финально агрегат `cart` будет выглядеть вот так:
+The final `cart` aggregate will look like this:
 
 ```typescript
 // cart.ts
@@ -241,11 +235,11 @@ export const cart = createAggregate({
   },
 
   actions: {
-    addProduct(product) {
+    addProduct(state, { product }) {
       return [cartProductAdded({ product )]
     },
 
-    removeProduct(product) {
+    removeProduct(state, { product }) {
       return [cartProductRemoved({ product })]
     }
   },
@@ -271,8 +265,9 @@ export const cart = createAggregate({
 
 ---
 
-Далее нам нужно как-то работать с агрегатами. Для этого существую контексты, которые позволяют работать с внешним миром и оперировать агрегатами. <br />
-Здесь у нас нет никаких зависимостей. Можно создавать дизайн максимально удобный для последующего внешнего использования.
+Next, we need to somehow work with aggregates. To make this happen we will use `contexts`. <br />
+Contexts allow us to work with outside world and operate with aggregates. <br />
+We don't have any dependencies here. You can create a design that is as convenient as possible for subsequent external use.
 
 ```typescript
 // common.ts
@@ -300,7 +295,7 @@ export const common = createContext({
 
 ---
 
-И финально связываем всё это вместе
+And finally we tie it all together.
 
 ```typescript
 // index.ts
@@ -319,9 +314,10 @@ const { commands, dispatch } = createHeart({
 export { commands, dispatch }
 ```
 
-`commands` – это объект, который хранит комманды из всех контекстов. А `dispatch` – функция, которая позволяет обрабатывать эти команды.
+`commands` is an object that stores commands from all contexts. <br />
+And `dispatch` is a function that allows you to process these commands.
 
-К примеру дальше в коде вы можете использовать это следующим образом:
+For example, layer in the code, you can use it like this:
 
 ```typescript
 // some-other-file.ts

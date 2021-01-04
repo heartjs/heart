@@ -36,7 +36,6 @@
     "lint": "eslint ./src --fix --ext .js,.jsx,.ts,.tsx",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch --passWithNoTests",
-    "predeploy": "yarn build && cp ../../README.md ./README.md",
     "deploy": "npm publish",
     "start": "tsc -w",
     "typecheck": "tsc"
