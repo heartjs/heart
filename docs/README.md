@@ -2,14 +2,18 @@
 All API are not stable yet and can be changed in the future. I'm figuring out how to make API more fluid and simple. <br />
 If you want contribute – welcome. But **DO NOT USE** this in production.
 
----
+<p align="center">
+  <img src="/assets/logo.jpg" alt="Logo" width="600px">
+</p>
 
-# Getting Started
+<p align="center">
+  <h1 align="center">Heart</h1>
+  <h3 align="center">Lightweight isolated business logic processor for monolith projects</h3>
+</p>
 
-**Lightweight isolated business logic processor for monolith projects.**
-
-- Built with `event sourcing` pattern in mind.
-- This library will help you build reliable logic with the help of `Domain Driven Design`.
+<p align="center">
+  <a href="https://heartjs.github.io/heart/" target="_blank"><strong>View the Docs</strong></a>
+</p>
 
 ## Motivation
 

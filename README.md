@@ -1,8 +1,15 @@
-# Heart
+<p align="center">
+  <img src="/docs/assets/logo.jpg" alt="Logo" width="600px">
+</p>
 
-Lightweight isolated business logic processor for monolith projects.
+<p align="center">
+  <h1 align="center">Heart</h1>
+  <h3 align="center">Lightweight isolated business logic processor for monolith projects</h3>
+</p>
 
-Built with `event sourcing` pattern in mind. This library will help you build reliable logic with the help of `Domain Driven Design`.
+<p align="center">
+  <a href="https://heartjs.github.io/heart/" target="_blank"><strong>View the Docs</strong></a>
+</p>
 
 ## Motivation
 
