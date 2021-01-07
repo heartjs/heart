@@ -1,5 +1,5 @@
 import { createHeart } from '@heartjs/heart'
-import { common } from './common'
+import { common } from './common-context'
 
 const { commands, dispatch } = createHeart({
   contexts: { common },

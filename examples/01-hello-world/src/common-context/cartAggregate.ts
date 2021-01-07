@@ -3,7 +3,7 @@ import {
   cartCreated,
   cartProductAdded,
   cartProductRemoved,
-} from './cartEvents'
+} from '../events/cart'
 
 export const cart = createAggregate({
   name: 'cart',

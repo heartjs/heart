@@ -1,5 +1,5 @@
 import { createContext } from '@heartjs/heart'
-import { cart } from './cart'
+import { cart } from './cartAggregate'
 
 export const common = createContext({
   aggregates: { cart },
