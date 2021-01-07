@@ -83,6 +83,9 @@ Side effects of your domain. For example `send notification about created order`
 ## TODO
 
 - [x] add support of **event** versioning
+- [ ] add tests
+- [ ] add further support of typescript
+  - [ ] so it show correct types of `commandHandlers`, `command` and `events`
 - [ ] validate uniqueness of `commandHandlers`
 - [ ] protect concurrency transactions in `commandHandlers`
 - [ ] add example/support of **read side**
