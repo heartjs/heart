@@ -105,7 +105,7 @@ const loyalty = createContext({
 
     changeUserName: async ({ id, name }, dependencies) => {
       const isUserExists = await dependencies.userRepository.isUserWithIdExists(id)
-      if (isUserExists) { /* throw validation error */ }
+      if (!isUserExists) { /* throw validation error */ }
 
       const currentUser = await dependencies.userRepository.getById(id)
       currentUser.changeName({ name })

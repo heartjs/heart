@@ -103,7 +103,7 @@ export const cart = createAggregate({
 ```
 
 `cart.create()` is a standard method that is available in the aggregate by default. To handle this method, we need to add a hook that will be called when the aggregate is created. <br />
-It should return the result of calling the `createInitialEvent()` function.
+It should return the array of events `[Event]`.
 
 ```diff
 // cart.ts
@@ -284,7 +284,7 @@ export const common = createContext({
       return [aggregate]
     },
 
-    removeProductToCart: async (command) => {
+    removeProductFromCart: async (command) => {
       const aggregate = cart.create({ id: command.cartId })
       aggregate.removeProduct(command.product)
       return [aggregate]
@@ -317,7 +317,7 @@ export { commands, dispatch }
 `commands` is an object that stores commands from all contexts. <br />
 And `dispatch` is a function that allows you to process these commands.
 
-For example, layer in the code, you can use it like this:
+For example, later in the code, you can use it like this:
 
 ```typescript
 // some-other-file.ts

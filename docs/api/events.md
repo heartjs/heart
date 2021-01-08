@@ -7,7 +7,7 @@
 
 ### Overview
 
-Create initial event with required `id` property. Layer will be used to initiate aggregates and provide IDs to them.
+Create initial event with required `id` property. Later will be used to initiate aggregates and provide IDs to them.
 
 ### Description
 
